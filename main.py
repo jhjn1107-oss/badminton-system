@@ -1,4 +1,5 @@
-from flask import Flask, Response, request
+from flask import Flask, Response, request, redirect, url_for
+
 
 app = Flask(__name__)
 
@@ -209,6 +210,12 @@ def admin():
     </html>
     """
     return Response(html, content_type='text/html; charset=utf-8')
+
+# ===== 관리자: 인원 초기화 (자동으로 /admin으로 돌아감) =====
+@app.route('/admin/reset', methods=['POST'])
+def admin_reset():
+    participants.clear()
+    return redirect(url_for('admin'))
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=5000, debug=True)
